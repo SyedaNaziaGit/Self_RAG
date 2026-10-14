@@ -1,3 +1,5 @@
+# Self-RAG with LangGraph 
+
 **Self-RAG** is an advanced retrieval-augmented generation technique that significantly enhances **traditional retrieval systems** by integrating continuous **self-reflection** throughout the text generation process. Unlike standard pipelines that blindly trust retrieved external documents, this approach uses a **large language model** to independently assess every stage of execution. Specifically, the system evaluates whether retrieval is genuinely necessary for a given user query, filters out **irrelevant evidence**, and verifies that generated responses remain strictly grounded in the provided facts to prevent **hallucinations**. Furthermore, if an initial response is deemed unhelpful or unsupported, the framework dynamically **refines queries** and enters iterative correction loops to guarantee accuracy. Ultimately, implementing this adaptive architecture within **LangGraph** allows developers to build robust, **fact-checking** conversational agents that exercise rigorous quality control over their own outputs.
 
  **Self-RAG (Self-Reflective Retrieval-Augmented Generation)** architecture—an advanced RAG framework where the Large Language Model (LLM) actively evaluates and fact-checks its own actions, evidence, and outputs at every step.
@@ -65,64 +67,6 @@ Even if an answer contains zero hallucinations (*Fully Supported*), it might sti
   * If the rewrite count exceeds the maximum limit without yielding a useful answer, the system gracefully terminates with a *"No Answer Found"* response.
 
 ---
-
-visual diagram of the Self-RAG architecture:
-Here is a structural flowchart of the **Self-RAG architecture** showing how queries flow through adaptive routing, relevance filtering, hallucination control, and query rewriting:
-
-```text
-                     [ User Query ]
-                           │
-                           ▼
-               ┌───────────────────────┐
-               │   Adaptive Routing    │
-               │ (Retrieval Needed?)   │
-               └───────────┬───────────┘
-                  No │           │ Yes
-                     ▼           ▼
-           ┌───────────┐    ┌────────────────────────┐
-           │ Direct    │    │     Vector Search      │
-           │ LLM Reply │    └───────────┬────────────┘
-           └─────┬─────┘                │
-                 │                      ▼
-                 │          ┌────────────────────────┐
-                 │          │  Relevance Filtering   │
-                 │          │ (Are Chunks Relevant?) │
-                 │          └───────────┬────────────┘
-                 │                      │
-                 │                      ▼
-                 │          ┌────────────────────────┐
-                 │          │   Answer Generation    │
-                 │          └───────────┬────────────┘
-                 │                      │
-                 │                      ▼
-                 │          ┌────────────────────────┐  Partially /
-                 │          │  Hallucination Check   ├──────────────┐
-                 │          │     (is_supported)     │              │
-                 │          └───────────┬────────────┘              │
-                 │       Fully          │                           ▼
-                 │     Supported        │                 ┌───────────────────┐
-                 │                      │                 │   Revise Answer   │
-                 │                      │                 │ (Strip Ungrounded)│
-                 │                      │                 └─────────┬─────────┘
-                 │                      │                           │
-                 │                      │ ◄─────────────────────────┘ (Retry loop)
-                 │                      ▼
-                 │          ┌────────────────────────┐
-                 │          │    Usefulness Check    │
-                 │          │        (is_use)        │
-                 │          └───────────┬────────────┘
-                 │            Useful │     │ Not Useful
-                 │                   │     ▼
-                 │                   │  ┌───────────────────┐
-                 │                   │  │ Rewrite Question  │
-                 │                   │  └─────────┬─────────┘
-                 │                   │            │
-                 │                   │            └─► (Re-search vector store)
-                 │                   ▼
-                 └───────────────► [ Final Grounded Output ]
-```
-
-# Self-RAG with LangGraph 
 
 **A step-by-step implementation of Self-RAG (Self-Reflective Retrieval-Augmented Generation) using LangGraph, where the LLM evaluates and fact-checks its own retrieval, evidence, and answers.**
 
