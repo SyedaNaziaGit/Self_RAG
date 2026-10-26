@@ -17,6 +17,8 @@
 ##  About
 
 **Self-RAG** is an advanced retrieval-augmented generation technique that enhances traditional retrieval systems by adding continuous **self-reflection** throughout text generation. Instead of blindly trusting retrieved documents, a **large language model** assesses every stage on its own:
+<img width="975" height="411" alt="image" src="https://github.com/user-attachments/assets/2ab98c6b-1dd6-4e76-9073-4d799a0e5956" />
+<img width="481" height="268" alt="image" src="https://github.com/user-attachments/assets/a089ca70-9cf8-46d7-bbac-2429d1beb496" />
 
 ##### Core Self-Reflection Questions
 Self-RAG introduces **self-reflection** mechanisms that continuously evaluate four key questions throughout processing:
